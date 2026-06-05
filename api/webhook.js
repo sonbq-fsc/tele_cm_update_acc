@@ -65,7 +65,7 @@ export default async function handler(req, res) {
     if (text === "📋 Assign Accounts") {
       const result = await callWebhook(N8N_CM_ASSIGN_ACC, {
         tele_user_id: userId,
-        user: username,
+        tele_user_name: username,
       });
       await sendMessage(chatId, result.ok ? `✅ ${result.body}` : "❌ Webhook failed.");
       return res.status(200).json({ ok: true });
@@ -83,7 +83,7 @@ export default async function handler(req, res) {
       delete waitingForReply[userId];
       const result = await callWebhook(N8N_CM_REFRESH_ACC, {
         tele_user_id: userId,
-        user: username,
+        tele_user_name: username,
         message: text,
       });
       await sendMessage(chatId, result.ok ? `✅ ${result.body}` : "❌ Webhook failed.");
