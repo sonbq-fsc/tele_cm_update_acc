@@ -74,7 +74,7 @@ export default async function handler(req, res) {
     // Button 2 — ask for input
     if (text === "🔄 Refresh Account") {
       waitingForReply[userId] = true;
-      await sendMessage(chatId, "✏️ Type the account name to refresh:");
+      await sendMessage(chatId, "✏️ Nhập student_id cần refresh:");
       return res.status(200).json({ ok: true });
     }
 
@@ -84,7 +84,7 @@ export default async function handler(req, res) {
       const result = await callWebhook(N8N_CM_REFRESH_ACC, {
         tele_user_id: userId,
         tele_user_name: username,
-        message: text,
+        student_id: text,
       });
       await sendMessage(chatId, result.ok ? `✅ ${result.body}` : "❌ Webhook failed.");
       return res.status(200).json({ ok: true });
