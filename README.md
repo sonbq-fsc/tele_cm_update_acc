@@ -29,8 +29,8 @@ In Vercel dashboard → Project → Settings → Environment Variables, add:
 | Key | Value |
 |-----|-------|
 | `TELEGRAM_TOKEN` | your bot token from @BotFather |
-| `WEBHOOK_1_URL` | n8n webhook for Assign Accounts |
-| `WEBHOOK_2_URL` | n8n webhook for Refresh Account |
+| `N8N_CM_ASSIGN_ACC` | n8n webhook for Assign Accounts |
+| `N8N_CM_REFRESH_ACC` | n8n webhook for Refresh Account |
 
 Redeploy after adding env vars.
 

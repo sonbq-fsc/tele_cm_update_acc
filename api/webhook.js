@@ -1,6 +1,6 @@
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
-const WEBHOOK_1_URL  = process.env.WEBHOOK_1_URL;
-const WEBHOOK_2_URL  = process.env.WEBHOOK_2_URL;
+const N8N_CM_ASSIGN_ACC  = process.env.N8N_CM_ASSIGN_ACC;
+const N8N_CM_REFRESH_ACC = process.env.N8N_CM_REFRESH_ACC;
 
 const TELEGRAM_API = `https://api.telegram.org/bot${TELEGRAM_TOKEN}`;
 
@@ -62,7 +62,7 @@ export default async function handler(req, res) {
 
     // Button 1 — call webhook directly
     if (text === "📋 Assign Accounts") {
-      const ok = await callWebhook(WEBHOOK_1_URL, {
+      const ok = await callWebhook(N8N_CM_ASSIGN_ACC, {
         tele_user_id: userId,
         user: username,
       });
@@ -80,7 +80,7 @@ export default async function handler(req, res) {
     // Waiting for reply after Button 2
     if (waitingForReply[userId]) {
       delete waitingForReply[userId];
-      const ok = await callWebhook(WEBHOOK_2_URL, {
+      const ok = await callWebhook(N8N_CM_REFRESH_ACC, {
         tele_user_id: userId,
         user: username,
         message: text,
