@@ -37,7 +37,8 @@ async function callWebhook(url, payload) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
-  return res.ok;
+  const text = await res.text();
+  return { ok: res.ok, body: text };
 }
 
 export default async function handler(req, res) {
@@ -62,11 +63,11 @@ export default async function handler(req, res) {
 
     // Button 1 — call webhook directly
     if (text === "📋 Assign Accounts") {
-      const ok = await callWebhook(N8N_CM_ASSIGN_ACC, {
+      const result = await callWebhook(N8N_CM_ASSIGN_ACC, {
         tele_user_id: userId,
         user: username,
       });
-      await sendMessage(chatId, ok ? "✅ Accounts assigned!" : "❌ Webhook failed.");
+      await sendMessage(chatId, result.ok ? `✅ ${result.body}` : "❌ Webhook failed.");
       return res.status(200).json({ ok: true });
     }
 
@@ -80,12 +81,12 @@ export default async function handler(req, res) {
     // Waiting for reply after Button 2
     if (waitingForReply[userId]) {
       delete waitingForReply[userId];
-      const ok = await callWebhook(N8N_CM_REFRESH_ACC, {
+      const result = await callWebhook(N8N_CM_REFRESH_ACC, {
         tele_user_id: userId,
         user: username,
         message: text,
       });
-      await sendMessage(chatId, ok ? "✅ Refresh request sent!" : "❌ Webhook failed.");
+      await sendMessage(chatId, result.ok ? `✅ ${result.body}` : "❌ Webhook failed.");
       return res.status(200).json({ ok: true });
     }
 
